@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Job Application — Luméa Beauty | Apply Online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .apply-page-wrapper {
+      padding: 60px 0 100px;
+    }
+
+    .form-wrapper {
+      max-width: 760px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 48px;
+      box-shadow: 0 12px 36px rgba(118, 91, 81, 0.04);
+    }
+
+    /* Steps indicator */
+    .steps-indicator {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 48px;
+      position: relative;
+    }
+
+    .steps-indicator::before {
+      content: '';
+      position: absolute;
+      top: 18px;
+      left: 36px;
+      right: 36px;
+      height: 2px;
+      background-color: var(--border);
+      z-index: 1;
+    }
+
+    .step-node {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: default;
+    }
+
+    .step-circle {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background-color: var(--card-bg);
+      border: 2px solid var(--border-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--stone);
+      transition: var(--transition-smooth);
+    }
+
+    .step-node.active .step-circle {
+      background-color: var(--charcoal);
+      border-color: var(--charcoal);
+      color: var(--ivory);
+    }
+
+    .step-node.completed .step-circle {
+      background-color: var(--muted-rose);
+      border-color: var(--muted-rose);
+      color: white;
+    }
+
+    .step-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--stone);
+    }
+
+    .step-node.active .step-label {
+      color: var(--charcoal);
+    }
+
+    /* Form Fields */
+    .form-step {
+      display: none;
+    }
+
+    .form-step.active {
+      display: block;
+      animation: fadeIn 0.35s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .step-heading {
+      margin-bottom: 30px;
+    }
+
+    .step-heading h3 {
+      font-size: 2.2rem;
+      margin-bottom: 6px;
+    }
+
+    .step-heading p {
+      color: var(--stone);
+      font-size: 0.95rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 22px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 7px;
+      color: var(--charcoal-soft);
+    }
+
+    .form-group label span.req {
+      color: var(--muted-rose);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--border-dark);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.92rem;
+      color: var(--charcoal);
+      background-color: var(--ivory);
+      transition: var(--transition-smooth);
+      outline: none;
+    }
+
+    .form-control:focus {
+      border-color: var(--muted-rose);
+      background-color: #FFF;
+      box-shadow: 0 0 0 3px rgba(198, 139, 132, 0.15);
+    }
+
+    .form-control.error-field {
+      border-color: var(--error-red);
+      background-color: var(--error-bg);
+    }
+
+    .error-msg {
+      font-size: 0.78rem;
+      color: var(--error-red);
+      margin-top: 5px;
+      display: none;
+    }
+
+    .error-msg.visible {
+      display: block;
+    }
+
+    /* Photo Upload Area */
+    .photo-upload-box {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 20px;
+      background: var(--ivory);
+      border: 1px dashed var(--border-dark);
+      border-radius: var(--radius-md);
+      margin-bottom: 24px;
+    }
+
+    .photo-preview {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+      color: var(--stone);
+      font-size: 0.78rem;
+    }
+
+    .photo-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .photo-instructions {
+      flex: 1;
+    }
+
+    .photo-instructions p {
+      font-size: 0.85rem;
+      color: var(--stone);
+      margin-bottom: 8px;
+    }
+
+    .file-input-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .file-input-wrapper input[type="file"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    /* Step 2: Role selection cards */
+    .role-selection-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .select-role-card {
+      border: 1px solid var(--border-dark);
+      background: var(--ivory);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      position: relative;
+    }
+
+    .select-role-card:hover {
+      border-color: var(--muted-rose);
+      background-color: var(--rose-light);
+    }
+
+    .select-role-card.selected {
+      border-color: var(--muted-rose);
+      background-color: var(--rose-light);
+      box-shadow: 0 0 0 2px var(--muted-rose);
+    }
+
+    .select-role-card h4 {
+      font-size: 1.25rem;
+      margin-bottom: 4px;
+      color: var(--charcoal);
+    }
+
+    .select-role-card span {
+      font-size: 0.78rem;
+      color: var(--soft-brown);
+      font-weight: 500;
+    }
+
+    .radio-pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .pill-radio {
+      position: relative;
+    }
+
+    .pill-radio input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .pill-radio label {
+      display: inline-block;
+      padding: 9px 18px;
+      border: 1px solid var(--border-dark);
+      background: var(--ivory);
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      color: var(--charcoal-soft);
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      font-weight: 500;
+    }
+
+    .pill-radio input[type="radio"]:checked + label {
+      background-color: var(--charcoal);
+      color: var(--ivory);
+      border-color: var(--charcoal);
+    }
+
+    /* Step 3: Experience items */
+    .experience-list {
+      margin-bottom: 20px;
+    }
+
+    .experience-entry {
+      background: var(--ivory);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-bottom: 14px;
+      position: relative;
+    }
+
+    .btn-remove-exp {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: none;
+      border: none;
+      color: var(--error-red);
+      font-size: 0.8rem;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .btn-add-exp {
+      background: none;
+      border: 1px dashed var(--muted-rose);
+      color: var(--soft-brown);
+      padding: 10px 18px;
+      border-radius: var(--radius-sm);
+      width: 100%;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 0.88rem;
+      transition: var(--transition-smooth);
+    }
+
+    .btn-add-exp:hover {
+      background: var(--rose-light);
+    }
+
+    /* Step 4: Portfolio upload */
+    .drag-drop-zone {
+      border: 2px dashed var(--border-dark);
+      border-radius: var(--radius-md);
+      padding: 32px 20px;
+      text-align: center;
+      background: var(--ivory);
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+
+    .drag-drop-zone:hover {
+      border-color: var(--muted-rose);
+      background: var(--rose-light);
+    }
+
+    .file-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 16px;
+      background: var(--cream);
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      margin-top: 12px;
+    }
+
+    /* Step 5: Review Step */
+    .review-panel {
+      background: var(--ivory);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .review-header-flex {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .review-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--cream);
+      overflow: hidden;
+    }
+
+    .review-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .review-section-block {
+      margin-bottom: 18px;
+    }
+
+    .review-section-block h5 {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted-rose);
+      margin-bottom: 6px;
+    }
+
+    .review-grid-data {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      font-size: 0.9rem;
+    }
+
+    .data-item {
+      color: var(--stone);
+    }
+
+    .data-item strong {
+      color: var(--charcoal);
+      font-weight: 600;
+    }
+
+    /* Form Nav Buttons */
+    .form-navigation {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Success Screen */
+    .success-screen {
+      display: none;
+      text-align: center;
+      padding: 60px 20px;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .success-screen.visible {
+      display: block;
+    }
+
+    .success-icon-box {
+      width: 76px;
+      height: 76px;
+      background-color: var(--success-bg);
+      color: var(--success-green);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      margin: 0 auto 24px;
+      border: 1px solid rgba(63, 98, 83, 0.2);
+    }
+
+    .success-screen h3 {
+      font-size: 3rem;
+      margin-bottom: 16px;
+      color: var(--charcoal);
+    }
+
+    .success-screen p {
+      max-width: 500px;
+      margin: 0 auto 30px;
+      color: var(--stone);
+      font-size: 1.05rem;
+    }
+
+    .submission-id-badge {
+      display: inline-block;
+      padding: 6px 18px;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      color: var(--soft-brown);
+      margin-bottom: 36px;
+    }
+
+    @media (max-width: 900px) {
+      .form-wrapper { padding: 30px 20px; }
+      .form-row { grid-template-columns: 1fr; }
+      .role-selection-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <span class="name">Luméa Beauty</span>
+        <span class="tag">Careers</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="roles.html">Open Roles</a></li>
+        <li><a href="life.html">Life at Luméa</a></li>
+        <li><a href="apply.html" class="active btn btn-primary btn-sm">Apply</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="apply-page-wrapper">
+    <div class="container">
+      <div class="form-wrapper">
+
+        <!-- Steps Indicator -->
+        <div class="steps-indicator" id="stepIndicatorBar">
+          <div class="step-node active" id="node-1">
+            <div class="step-circle">1</div>
+            <span class="step-label">Personal</span>
+          </div>
+          <div class="step-node" id="node-2">
+            <div class="step-circle">2</div>
+            <span class="step-label">Role</span>
+          </div>
+          <div class="step-node" id="node-3">
+            <div class="step-circle">3</div>
+            <span class="step-label">Experience</span>
+          </div>
+          <div class="step-node" id="node-4">
+            <div class="step-circle">4</div>
+            <span class="step-label">Portfolio</span>
+          </div>
+          <div class="step-node" id="node-5">
+            <div class="step-circle">5</div>
+            <span class="step-label">Review</span>
+          </div>
+        </div>
+
+        <form id="multiStepForm" onsubmit="event.preventDefault();">
+
+          <!-- STEP 1: PERSONAL -->
+          <div class="form-step active" id="step-1">
+            <div class="step-heading">
+              <span class="badge">Step 01</span>
+              <h3>Personal Details</h3>
+              <p>Tell us who you are and where we can reach you.</p>
+            </div>
+
+            <!-- Profile Photo Upload -->
+            <div class="photo-upload-box">
+              <div class="photo-preview" id="photoPreviewDisplay">
+                <span>Photo</span>
+              </div>
+              <div class="photo-instructions">
+                <strong>Profile Photo</strong>
+                <p>Upload a friendly headshot or profile image (JPG, PNG).</p>
+                <div class="file-input-wrapper">
+                  <button type="button" class="btn btn-secondary btn-sm">Choose Image</button>
+                  <input type="file" id="profilePhotoInput" accept="image/*" onchange="handleProfilePhoto(event)">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fullName">Full Name <span class="req">*</span></label>
+                <input type="text" id="fullName" class="form-control" placeholder="e.g. Maya Sen" required>
+                <span class="error-msg" id="err-fullName">Please enter your full name.</span>
+              </div>
+              <div class="form-group">
+                <label for="email">Email Address <span class="req">*</span></label>
+                <input type="email" id="email" class="form-control" placeholder="maya@example.com" required>
+                <span class="error-msg" id="err-email">Please provide a valid email address.</span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="phone">Phone Number <span class="req">*</span></label>
+                <input type="tel" id="phone" class="form-control" placeholder="+91 98765 43210" required>
+                <span class="error-msg" id="err-phone">Phone number is required.</span>
+              </div>
+              <div class="form-group">
+                <label for="city">City <span class="req">*</span></label>
+                <input type="text" id="city" class="form-control" placeholder="Bengaluru, Mumbai, etc." required>
+                <span class="error-msg" id="err-city">Please provide your current city.</span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="dob">Date of Birth <span class="req">*</span></label>
+                <input type="date" id="dob" class="form-control" required>
+                <span class="error-msg" id="err-dob">Date of birth is required.</span>
+              </div>
+              <div class="form-group">
+                <label for="linkedin">LinkedIn Profile URL</label>
+                <input type="url" id="linkedin" class="form-control" placeholder="https://linkedin.com/in/username">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="website">Portfolio / Personal Website</label>
+              <input type="url" id="website" class="form-control" placeholder="https://mayasen.design">
+            </div>
+          </div>
+
+          <!-- STEP 2: ROLE -->
+          <div class="form-step" id="step-2">
+            <div class="step-heading">
+              <span class="badge">Step 02</span>
+              <h3>Select Role & Preference</h3>
+              <p>Choose your target position and ideal working arrangements.</p>
+            </div>
+
+            <div class="form-group">
+              <label>Select Position of Interest <span class="req">*</span></label>
+              <div class="role-selection-grid" id="roleCardsSelection">
+                <!-- Injected via JavaScript -->
+              </div>
+              <input type="hidden" id="selectedRoleVal" required>
+              <span class="error-msg" id="err-selectedRole">Please select a position card.</span>
+            </div>
+
+            <div class="form-group">
+              <label>Employment Type <span class="req">*</span></label>
+              <div class="radio-pill-group">
+                <div class="pill-radio">
+                  <input type="radio" id="emp-intern" name="empType" value="Internship" checked>
+                  <label for="emp-intern">Internship</label>
+                </div>
+                <div class="pill-radio">
+                  <input type="radio" id="emp-full" name="empType" value="Full-time">
+                  <label for="emp-full">Full-time</label>
+                </div>
+                <div class="pill-radio">
+                  <input type="radio" id="emp-part" name="empType" value="Part-time">
+                  <label for="emp-part">Part-time</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-top: 14px;">
+              <label>Preferred Location <span class="req">*</span></label>
+              <div class="radio-pill-group">
+                <div class="pill-radio">
+                  <input type="radio" id="loc-blr" name="prefLocation" value="Bengaluru" checked>
+                  <label for="loc-blr">Bengaluru</label>
+                </div>
+                <div class="pill-radio">
+                  <input type="radio" id="loc-mum" name="prefLocation" value="Mumbai">
+                  <label for="loc-mum">Mumbai</label>
+                </div>
+                <div class="pill-radio">
+                  <input type="radio" id="loc-del" name="prefLocation" value="Delhi">
+                  <label for="loc-del">Delhi</label>
+                </div>
+                <div class="pill-radio">
+                  <input type="radio" id="loc-hyd" name="prefLocation" value="Hyderabad">
+                  <label for="loc-hyd">Hyderabad</label>
+                </div>
+                <div class="pill-radio">
+                  <input type="radio" id="loc-rem" name="prefLocation" value="Remote">
+                  <label for="loc-rem">Remote</label>
+                </div>
+                <div class="pill-radio">
+                  <input type="radio" id="loc-rel" name="prefLocation" value="Open to relocation">
+                  <label for="loc-rel">Open to relocation</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 3: EXPERIENCE -->
+          <div class="form-step" id="step-3">
+            <div class="step-heading">
+              <span class="badge">Step 03</span>
+              <h3>Background & Experience</h3>
+              <p>Share your relevant projects, prior internships, or freelance work.</p>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="expLevel">Overall Experience Level <span class="req">*</span></label>
+                <select id="expLevel" class="form-control" required>
+                  <option value="">Select an option</option>
+                  <option value="Student / Fresh Graduate">Student / Fresh Graduate</option>
+                  <option value="1 - 2 Years">1 - 2 Years</option>
+                  <option value="3 - 5 Years">3 - 5 Years</option>
+                  <option value="5+ Years">5+ Years</option>
+                </select>
+                <span class="error-msg" id="err-expLevel">Please choose your experience level.</span>
+              </div>
+              <div class="form-group">
+                <label for="noticePeriod">Notice Period / Earliest Start <span class="req">*</span></label>
+                <input type="text" id="noticePeriod" class="form-control" placeholder="e.g. Immediately / 2 Weeks" required>
+                <span class="error-msg" id="err-noticePeriod">Please specify your start availability.</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Work or Academic Experience</label>
+              <div class="experience-list" id="experienceContainer">
+                <div class="experience-entry">
+                  <div class="form-row" style="margin-bottom: 12px;">
+                    <div>
+                      <input type="text" class="form-control exp-role" placeholder="Role / Position title">
+                    </div>
+                    <div>
+                      <input type="text" class="form-control exp-company" placeholder="Company / Studio / Project">
+                    </div>
+                  </div>
+                  <input type="text" class="form-control exp-duration" placeholder="Duration (e.g. June 2024 - Dec 2024)">
+                </div>
+              </div>
+              <button type="button" class="btn-add-exp" onclick="addExperienceField()">+ Add Another Experience</button>
+            </div>
+
+            <div class="form-group">
+              <label for="statement">Why Luméa Beauty? <span class="req">*</span></label>
+              <textarea id="statement" class="form-control" rows="4" placeholder="Briefly describe what draws you to our aesthetic, brand values, or this specific role..." required></textarea>
+              <span class="error-msg" id="err-statement">Please provide a brief statement.</span>
+            </div>
+          </div>
+
+          <!-- STEP 4: PORTFOLIO -->
+          <div class="form-step" id="step-4">
+            <div class="step-heading">
+              <span class="badge">Step 04</span>
+              <h3>Portfolio & Resume</h3>
+              <p>Showcase your craft, resume, or creative lookbook.</p>
+            </div>
+
+            <div class="form-group">
+              <label>Resume / CV Document <span class="req">*</span></label>
+              <div class="drag-drop-zone" onclick="document.getElementById('resumeFileInput').click()">
+                <div style="font-size: 2rem; margin-bottom: 8px;">📄</div>
+                <strong>Click to attach your Resume (PDF, DOCX)</strong>
+                <p style="font-size: 0.8rem; color: var(--stone); margin-top: 4px;">Max file size: 10MB</p>
+                <div id="resumeFileName" class="file-chip" style="display: none;"></div>
+              </div>
+              <input type="file" id="resumeFileInput" accept=".pdf,.doc,.docx" style="display: none;" onchange="handleResumeFile(event)">
+              <span class="error-msg" id="err-resume">Please attach your resume.</span>
+            </div>
+
+            <div class="form-group">
+              <label for="portfolioDrive">Online Portfolio / Drive Link (Behance, Figma, Google Drive, Notion)</label>
+              <input type="url" id="portfolioDrive" class="form-control" placeholder="https://www.behance.net/gallery/...">
+            </div>
+
+            <div class="form-group">
+              <label for="creativeNotes">Additional Creative Notes</label>
+              <textarea id="creativeNotes" class="form-control" rows="3" placeholder="Any specific case studies or password-protected work you'd like us to review?"></textarea>
+            </div>
+          </div>
+
+          <!-- STEP 5: REVIEW -->
+          <div class="form-step" id="step-5">
+            <div class="step-heading">
+              <span class="badge">Step 05</span>
+              <h3>Review Your Application</h3>
+              <p>Please double check your details before submitting to our hiring team.</p>
+            </div>
+
+            <div class="review-panel" id="reviewSummaryContent">
+              <!-- Dynamically populated review content -->
+            </div>
+          </div>
+
+          <!-- Form Navigation Controls -->
+          <div class="form-navigation">
+            <button type="button" class="btn btn-secondary" id="prevBtn" onclick="prevStep()" style="visibility: hidden;">Back</button>
+            <div style="display: flex; gap: 12px;">
+              <a href="roles.html" class="btn btn-secondary">Cancel</a>
+              <button type="button" class="btn btn-primary" id="nextBtn" onclick="nextStep()">Continue</button>
+            </div>
+          </div>
+        </form>
+
+        <!-- Success Screen -->
+        <div class="success-screen" id="successScreen">
+          <div class="success-icon-box">✓</div>
+          <h3>Application Received</h3>
+          <p>
+            Thank you for applying to <strong id="successApplicantRole">Luméa Beauty</strong>! Our hiring coordinators carefully review every portfolio and candidate profile.
+          </p>
+          <div class="submission-id-badge" id="successTrackingId">Application ID: #LUM-84920</div>
+          <div>
+            <a href="roles.html" class="btn btn-primary">Browse More Roles</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-flex">
+        <div class="footer-brand">
+          <h4>Luméa Beauty</h4>
+          <p>Create. Inspire. Belong.</p>
+        </div>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="roles.html">Open Roles</a></li>
+          <li><a href="life.html">Life at Luméa</a></li>
+          <li><a href="apply.html">Apply Now</a></li>
+        </ul>
+      </div>
+      <div class="copyright">
+        © 2026 Luméa Beauty Studio. Designed and coded with care for future beauty thinkers.
+      </div>
+    </div>
+  </footer>
+
+  <script src="roles-data.js"></script>
+  <script>
+    let currentStepIndex = 1;
+    let selectedJobId = "role-1";
+    let applicationData = {
+      fullName: "",
+      email: "",
+      phone: "",
+      city: "",
+      dob: "",
+      linkedin: "",
+      website: "",
+      profilePhotoUrl: "",
+      roleId: "role-1",
+      roleTitle: "Social Media & Content Intern",
+      empType: "Internship",
+      prefLocation: "Bengaluru",
+      expLevel: "",
+      noticePeriod: "",
+      statement: "",
+      experiences: [],
+      resumeFileName: "",
+      portfolioDrive: "",
+      creativeNotes: ""
+    };
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // Check for query param ?role=role-x
+      const urlParams = new URLSearchParams(window.location.search);
+      const preselectedRole = urlParams.get("role");
+      if (preselectedRole && openRolesData.find(r => r.id === preselectedRole)) {
+        selectedJobId = preselectedRole;
+      }
+
+      renderRoleSelectionCards();
+      chooseRoleCard(selectedJobId);
+    });
+
+    function renderRoleSelectionCards() {
+      const container = document.getElementById("roleCardsSelection");
+      container.innerHTML = openRolesData.map(role => `
+        <div class="select-role-card ${role.id === selectedJobId ? 'selected' : ''}" id="card-${role.id}" onclick="chooseRoleCard('${role.id}')">
+          <h4>${role.title}</h4>
+          <span>${role.dept} • ${role.location}</span>
+        </div>
+      `).join("");
+      document.getElementById("selectedRoleVal").value = selectedJobId;
+    }
+
+    function chooseRoleCard(roleId) {
+      selectedJobId = roleId;
+      document.querySelectorAll(".select-role-card").forEach(c => c.classList.remove("selected"));
+      const targetCard = document.getElementById(`card-${roleId}`);
+      if (targetCard) targetCard.classList.add("selected");
+      document.getElementById("selectedRoleVal").value = roleId;
+      
+      const roleObj = openRolesData.find(r => r.id === roleId);
+      if (roleObj) {
+        applicationData.roleId = roleId;
+        applicationData.roleTitle = roleObj.title;
+        if (roleObj.type === "Internship") document.getElementById("emp-intern").checked = true;
+        if (roleObj.type === "Full-time") document.getElementById("emp-full").checked = true;
+        if (roleObj.type === "Part-time") document.getElementById("emp-part").checked = true;
+      }
+      hideError("err-selectedRole");
+    }
+
+    function handleProfilePhoto(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          applicationData.profilePhotoUrl = event.target.result;
+          document.getElementById("photoPreviewDisplay").innerHTML = `<img src="${event.target.result}" alt="Candidate Preview">`;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function handleResumeFile(e) {
+      const file = e.target.files[0];
+      if (file) {
+        applicationData.resumeFileName = file.name;
+        const chip = document.getElementById("resumeFileName");
+        chip.style.display = "inline-flex";
+        chip.textContent = "Attached: " + file.name;
+        hideError("err-resume");
+      }
+    }
+
+    function addExperienceField() {
+      const container = document.getElementById("experienceContainer");
+      const div = document.createElement("div");
+      div.className = "experience-entry";
+      div.innerHTML = `
+        <button type="button" class="btn-remove-exp" onclick="this.parentElement.remove()">Remove</button>
+        <div class="form-row" style="margin-bottom: 12px;">
+          <div>
+            <input type="text" class="form-control exp-role" placeholder="Role / Position title">
+          </div>
+          <div>
+            <input type="text" class="form-control exp-company" placeholder="Company / Studio / Project">
+          </div>
+        </div>
+        <input type="text" class="form-control exp-duration" placeholder="Duration (e.g. 2023 - 2024)">
+      `;
+      container.appendChild(div);
+    }
+
+    function validateStep(step) {
+      let isValid = true;
+
+      if (step === 1) {
+        const name = document.getElementById("fullName").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        const city = document.getElementById("city").value.trim();
+        const dob = document.getElementById("dob").value;
+
+        if (!name) { showError("err-fullName", "fullName"); isValid = false; } else { hideError("err-fullName", "fullName"); }
+        if (!email || !email.includes("@")) { showError("err-email", "email"); isValid = false; } else { hideError("err-email", "email"); }
+        if (!phone) { showError("err-phone", "phone"); isValid = false; } else { hideError("err-phone", "phone"); }
+        if (!city) { showError("err-city", "city"); isValid = false; } else { hideError("err-city", "city"); }
+        if (!dob) { showError("err-dob", "dob"); isValid = false; } else { hideError("err-dob", "dob"); }
+      }
+
+      if (step === 2) {
+        if (!selectedJobId) {
+          showError("err-selectedRole");
+          isValid = false;
+        } else {
+          hideError("err-selectedRole");
+        }
+      }
+
+      if (step === 3) {
+        const expLevel = document.getElementById("expLevel").value;
+        const notice = document.getElementById("noticePeriod").value.trim();
+        const statement = document.getElementById("statement").value.trim();
+
+        if (!expLevel) { showError("err-expLevel", "expLevel"); isValid = false; } else { hideError("err-expLevel", "expLevel"); }
+        if (!notice) { showError("err-noticePeriod", "noticePeriod"); isValid = false; } else { hideError("err-noticePeriod", "noticePeriod"); }
+        if (!statement) { showError("err-statement", "statement"); isValid = false; } else { hideError("err-statement", "statement"); }
+      }
+
+      if (step === 4) {
+        if (!applicationData.resumeFileName) {
+          showError("err-resume");
+          isValid = false;
+        } else {
+          hideError("err-resume");
+        }
+      }
+
+      return isValid;
+    }
+
+    function showError(errId, fieldId) {
+      const el = document.getElementById(errId);
+      if (el) el.classList.add("visible");
+      if (fieldId) {
+        const input = document.getElementById(fieldId);
+        if (input) input.classList.add("error-field");
+      }
+    }
+
+    function hideError(errId, fieldId) {
+      const el = document.getElementById(errId);
+      if (el) el.classList.remove("visible");
+      if (fieldId) {
+        const input = document.getElementById(fieldId);
+        if (input) input.classList.remove("error-field");
+      }
+    }
+
+    function captureFormData() {
+      if (currentStepIndex === 1) {
+        applicationData.fullName = document.getElementById("fullName").value.trim();
+        applicationData.email = document.getElementById("email").value.trim();
+        applicationData.phone = document.getElementById("phone").value.trim();
+        applicationData.city = document.getElementById("city").value.trim();
+        applicationData.dob = document.getElementById("dob").value;
+        applicationData.linkedin = document.getElementById("linkedin").value.trim();
+        applicationData.website = document.getElementById("website").value.trim();
+      }
+
+      if (currentStepIndex === 2) {
+        const empRadio = document.querySelector('input[name="empType"]:checked');
+        const locRadio = document.querySelector('input[name="prefLocation"]:checked');
+        if (empRadio) applicationData.empType = empRadio.value;
+        if (locRadio) applicationData.prefLocation = locRadio.value;
+        const role = openRolesData.find(r => r.id === selectedJobId);
+        if (role) applicationData.roleTitle = role.title;
+      }
+
+      if (currentStepIndex === 3) {
+        applicationData.expLevel = document.getElementById("expLevel").value;
+        applicationData.noticePeriod = document.getElementById("noticePeriod").value.trim();
+        applicationData.statement = document.getElementById("statement").value.trim();
+
+        const entries = document.querySelectorAll(".experience-entry");
+        applicationData.experiences = [];
+        entries.forEach(entry => {
+          const r = entry.querySelector(".exp-role").value.trim();
+          const c = entry.querySelector(".exp-company").value.trim();
+          const d = entry.querySelector(".exp-duration").value.trim();
+          if (r || c) {
+            applicationData.experiences.push({ role: r, company: c, duration: d });
+          }
+        });
+      }
+
+      if (currentStepIndex === 4) {
+        applicationData.portfolioDrive = document.getElementById("portfolioDrive").value.trim();
+        applicationData.creativeNotes = document.getElementById("creativeNotes").value.trim();
+      }
+    }
+
+    function renderReviewSummary() {
+      const target = document.getElementById("reviewSummaryContent");
+      target.innerHTML = `
+        <div class="review-header-flex">
+          <div class="review-avatar">
+            ${applicationData.profilePhotoUrl 
+              ? `<img src="${applicationData.profilePhotoUrl}" alt="Profile">` 
+              : `<div style="height:100%; display:flex; align-items:center; justify-content:center; color:var(--stone); font-size:12px;">No Photo</div>`}
+          </div>
+          <div>
+            <h4 style="font-size: 1.5rem; color: var(--charcoal);">${applicationData.fullName}</h4>
+            <p style="color: var(--muted-rose); font-weight: 500; font-size: 0.9rem;">${applicationData.roleTitle} (${applicationData.empType})</p>
+          </div>
+        </div>
+
+        <div class="review-section-block">
+          <h5>Contact Information</h5>
+          <div class="review-grid-data">
+            <div class="data-item">Email: <strong>${applicationData.email}</strong></div>
+            <div class="data-item">Phone: <strong>${applicationData.phone}</strong></div>
+            <div class="data-item">City: <strong>${applicationData.city}</strong></div>
+            <div class="data-item">Date of Birth: <strong>${applicationData.dob}</strong></div>
+            ${applicationData.linkedin ? `<div class="data-item">LinkedIn: <strong>${applicationData.linkedin}</strong></div>` : ''}
+            ${applicationData.website ? `<div class="data-item">Website: <strong>${applicationData.website}</strong></div>` : ''}
+          </div>
+        </div>
+
+        <div class="review-section-block">
+          <h5>Role & Preferences</h5>
+          <div class="review-grid-data">
+            <div class="data-item">Target Role: <strong>${applicationData.roleTitle}</strong></div>
+            <div class="data-item">Employment Type: <strong>${applicationData.empType}</strong></div>
+            <div class="data-item">Preferred Location: <strong>${applicationData.prefLocation}</strong></div>
+            <div class="data-item">Earliest Start: <strong>${applicationData.noticePeriod}</strong></div>
+          </div>
+        </div>
+
+        <div class="review-section-block">
+          <h5>Experience Summary</h5>
+          <p style="font-size: 0.9rem; color: var(--stone); margin-bottom: 8px;">Level: <strong>${applicationData.expLevel}</strong></p>
+          ${applicationData.experiences.length > 0 ? `
+            <div style="background: var(--cream); padding: 12px; border-radius: var(--radius-sm); margin-bottom: 8px;">
+              ${applicationData.experiences.map(e => `
+                <div style="font-size: 0.85rem; margin-bottom: 4px;">
+                  <strong>${e.role || 'Contributor'}</strong> at ${e.company || 'Studio'} (${e.duration || 'Recent'})
+                </div>
+              `).join("")}
+            </div>
+          ` : '<p style="font-size: 0.85rem; color: var(--stone);">No prior company experience listed.</p>'}
+          <p style="font-size: 0.88rem; color: var(--stone); font-style: italic; margin-top: 6px;">
+            "${applicationData.statement}"
+          </p>
+        </div>
+
+        <div class="review-section-block">
+          <h5>Attached Materials</h5>
+          <div class="review-grid-data">
+            <div class="data-item">Resume Document: <strong>${applicationData.resumeFileName || 'Not attached'}</strong></div>
+            ${applicationData.portfolioDrive ? `<div class="data-item">Portfolio Link: <strong>${applicationData.portfolioDrive}</strong></div>` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    function nextStep() {
+      if (!validateStep(currentStepIndex)) return;
+      captureFormData();
+
+      if (currentStepIndex === 4) {
+        renderReviewSummary();
+      }
+
+      if (currentStepIndex === 5) {
+        submitApplication();
+        return;
+      }
+
+      currentStepIndex++;
+      updateStepUI();
+    }
+
+    function prevStep() {
+      if (currentStepIndex > 1) {
+        currentStepIndex--;
+        updateStepUI();
+      }
+    }
+
+    function updateStepUI() {
+      document.querySelectorAll(".form-step").forEach((s, idx) => {
+        s.classList.toggle("active", idx + 1 === currentStepIndex);
+      });
+
+      for (let i = 1; i <= 5; i++) {
+        const node = document.getElementById(`node-${i}`);
+        if (i < currentStepIndex) {
+          node.className = "step-node completed";
+        } else if (i === currentStepIndex) {
+          node.className = "step-node active";
+        } else {
+          node.className = "step-node";
+        }
+      }
+
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+
+      prevBtn.style.visibility = currentStepIndex > 1 ? "visible" : "hidden";
+
+      if (currentStepIndex === 5) {
+        nextBtn.textContent = "Submit Application";
+        nextBtn.className = "btn btn-rose";
+      } else {
+        nextBtn.textContent = "Continue";
+        nextBtn.className = "btn btn-primary";
+      }
+
+      document.querySelector(".form-wrapper").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function submitApplication() {
+      const randomId = "LUM-" + Math.floor(10000 + Math.random() * 90000);
+      document.getElementById("successApplicantRole").textContent = applicationData.roleTitle;
+      document.getElementById("successTrackingId").textContent = `Application Reference: #${randomId}`;
+
+      document.getElementById("multiStepForm").style.display = "none";
+      document.getElementById("successScreen").classList.add("visible");
+      document.getElementById("stepIndicatorBar").style.display = "none";
+    }
+  </script>
+</body>
+</html>

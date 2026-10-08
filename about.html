@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us — Luméa Beauty | Our Story & Philosophy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .page-header {
+      padding: 80px 0 50px;
+      text-align: center;
+      background: var(--cream);
+      border-bottom: 1px solid var(--border);
+    }
+    .page-header h1 {
+      font-size: 3.8rem;
+      margin: 14px 0 16px;
+    }
+    .page-header p {
+      max-width: 620px;
+      margin: 0 auto;
+      color: var(--stone);
+      font-size: 1.1rem;
+    }
+
+    .about-story-section {
+      padding: 90px 0;
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .about-grid h2 {
+      font-size: 2.8rem;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    .about-grid p {
+      color: var(--stone);
+      font-size: 1rem;
+      line-height: 1.8;
+      margin-bottom: 18px;
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-top: 40px;
+    }
+    .value-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 28px 20px;
+    }
+    .value-card .value-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      color: var(--muted-rose);
+      margin-bottom: 10px;
+      display: block;
+    }
+    .value-card h4 {
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+    }
+    .value-card p {
+      font-size: 0.88rem;
+      color: var(--stone);
+      line-height: 1.6;
+    }
+
+    .milestone-strip {
+      background: var(--cream);
+      padding: 70px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .milestones-flex {
+      display: flex;
+      justify-content: space-around;
+      text-align: center;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+    .milestone-item h3 {
+      font-size: 3rem;
+      color: var(--charcoal);
+      margin-bottom: 4px;
+    }
+    .milestone-item span {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--soft-brown);
+      font-weight: 600;
+    }
+
+    @media (max-width: 900px) {
+      .about-grid { grid-template-columns: 1fr; gap: 30px; }
+      .values-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .values-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <span class="name">Luméa Beauty</span>
+        <span class="tag">Careers</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html" class="active">About</a></li>
+        <li><a href="roles.html">Open Roles</a></li>
+        <li><a href="life.html">Life at Luméa</a></li>
+        <li><a href="apply.html" class="btn btn-primary btn-sm">Apply</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Page Header -->
+    <header class="page-header">
+      <div class="container">
+        <span class="badge">Our Studio & Heritage</span>
+        <h1>Behind Luméa Beauty</h1>
+        <p>We believe makeup and skincare should celebrate natural nuance, texture, and individual self-expression.</p>
+      </div>
+    </header>
+
+    <!-- Narrative Section -->
+    <section class="about-story-section">
+      <div class="container">
+        <div class="about-grid">
+          <div>
+            <span class="badge">Origin</span>
+            <h2 style="margin-top: 12px;">Founded on Intention, Not Transient Trends.</h2>
+            <p>
+              We’re a growing beauty company bringing together creators, marketers, product thinkers, and beauty enthusiasts. Started in 2024 as an indie formulation atelier in Bengaluru, Luméa was born from a simple observation: modern beauty routines felt rushed, prescriptive, and disconnected from real skin.
+            </p>
+            <p>
+              Instead of producing endless synthetic SKUs, our team spent months experimenting with cold-pressed botanical extracts, skin-barrier supporting lipopeptides, and adaptive mineral pigments that honor every undertone.
+            </p>
+            <div style="margin-top: 24px;">
+              <a href="roles.html" class="btn btn-primary">Join Our Journey</a>
+            </div>
+          </div>
+
+          <div style="background: var(--cream); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 40px; text-align: center;">
+            <div style="width: 90px; height: 90px; border-radius: 50%; background: var(--card-bg); margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-dark);">
+              <span style="font-family:'Cormorant Garamond', serif; font-size: 2.2rem; font-style: italic; color: var(--muted-rose);">L</span>
+            </div>
+            <h3 style="font-size: 1.8rem; margin-bottom: 8px;">The Luméa Manifesto</h3>
+            <p style="font-style: italic; color: var(--stone); line-height: 1.8; max-width: 400px; margin: 0 auto;">
+              “We create products that reveal who you are, never cover who you aren’t. Our team is united by craft, kindness, and quiet boldness.”
+            </p>
+          </div>
+        </div>
+
+        <!-- Four Pillars -->
+        <div style="margin-top: 80px;">
+          <div style="text-align: center; margin-bottom: 30px;">
+            <span class="badge">Core Beliefs</span>
+            <h3 style="font-size: 2.5rem; margin-top: 10px;">What We Stand For</h3>
+          </div>
+          <div class="values-grid">
+            <div class="value-card">
+              <span class="value-num">01</span>
+              <h4>Skin First</h4>
+              <p>Every pigment and base formula prioritizes skin health, hydration, and cellular comfort.</p>
+            </div>
+            <div class="value-card">
+              <span class="value-num">02</span>
+              <h4>Radical Honesty</h4>
+              <p>Full ingredient sourcing transparency without hyperbolic marketing claims.</p>
+            </div>
+            <div class="value-card">
+              <span class="value-num">03</span>
+              <h4>Tactile Craft</h4>
+              <p>Sensory textures, ergonomic glass bottles, and infinitely recyclable aluminum components.</p>
+            </div>
+            <div class="value-card">
+              <span class="value-num">04</span>
+              <h4>Every Hue</h4>
+              <p>Inclusive shade formulation developed with artists from across every Indian sub-region.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Milestones -->
+    <section class="milestone-strip">
+      <div class="container">
+        <div class="milestones-flex">
+          <div class="milestone-item">
+            <h3>100%</h3>
+            <span>Cruelty-Free & Vegan</span>
+          </div>
+          <div class="milestone-item">
+            <h3>6</h3>
+            <span>Open Career Openings</span>
+          </div>
+          <div class="milestone-item">
+            <h3>4</h3>
+            <span>Cities & Remote Hubs</span>
+          </div>
+          <div class="milestone-item">
+            <h3>40+</h3>
+            <span>Studio Team Members</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-flex">
+        <div class="footer-brand">
+          <h4>Luméa Beauty</h4>
+          <p>Create. Inspire. Belong.</p>
+        </div>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="roles.html">Open Roles</a></li>
+          <li><a href="life.html">Life at Luméa</a></li>
+          <li><a href="apply.html">Apply Now</a></li>
+        </ul>
+      </div>
+      <div class="copyright">
+        © 2026 Luméa Beauty Studio. Designed and coded with care for future beauty thinkers.
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
